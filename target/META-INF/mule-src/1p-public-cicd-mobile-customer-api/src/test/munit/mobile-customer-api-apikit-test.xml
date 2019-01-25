@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd ">
+    <munit:config name="mobile-customer-api-apikit-test.xml" />
+    <http:request-config name="HTTP_Request_Configuration" basePath="/api">
+        <http:request-connection host="localhost" port="8081" />
+    </http:request-config>
+    <munit:test name="put:\user\(userId)\shopping_cart:application\json:mobile-customer-api-config-204--FlowTest" description="Verifying functionality of [put:\user\(userId)\shopping_cart:application\json:mobile-customer-api-config-204-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="put:\user\(userId)\shopping_cart:application\json:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_user_{userid}_shopping_cart_application_json.json')]" />
+            <set-variable variableName="userId" value="#['123123']" doc:name="userId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/user/$(vars.userId)/shopping_cart']">
+                <http:headers>#[{"Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(204)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 204" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\orders\order\(order_id):mobile-customer-api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\orders\order\(order_id):mobile-customer-api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="get:\orders\order\(order_id):mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="order_id" value="#['123123']" doc:name="order_id" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/orders/order/$(vars.order_id)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_orders_order_{order_id}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\products\product\(product_id):mobile-customer-api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\products\product\(product_id):mobile-customer-api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="get:\products\product\(product_id):mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="product_id" value="#['123123']" doc:name="product_id" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/products/product/$(vars.product_id)']">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_products_product_{product_id}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\orders\search:mobile-customer-api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\orders\search:mobile-customer-api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="get:\orders\search:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/orders/search">
+                <http:headers>#[{"Accept":"application/json"}]</http:headers>
+                <http:query-params>#[{"user_id":"1964401a-a8b3-40c1-b86e-d8b9f75b5842"}]</http:query-params>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_orders_search_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\products\search:mobile-customer-api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\products\search:mobile-customer-api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="get:\products\search:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/products/search">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:query-params>#[{"offset":"0","maxResults":"25"}]</http:query-params>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_products_search_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\user\(userId)\shopping_cart:mobile-customer-api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\user\(userId)\shopping_cart:mobile-customer-api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="get:\user\(userId)\shopping_cart:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="userId" value="#['123123']" doc:name="userId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/user/$(vars.userId)/shopping_cart']">
+                <http:headers>#[{"Accept":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_user_{userid}_shopping_cart_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\user\(userId):mobile-customer-api-config-200-application\json-FlowTest" description="Verifying functionality of [get:\user\(userId):mobile-customer-api-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="get:\user\(userId):mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="userId" value="#['123123']" doc:name="userId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/user/$(vars.userId)']">
+                <http:headers>#[{"Accept":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/get_200_user_{userid}_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\user\(userId)\shopping_cart\confirmation:application\json:mobile-customer-api-config-201-application\json-FlowTest" description="Verifying functionality of [post:\user\(userId)\shopping_cart\confirmation:application\json:mobile-customer-api-config-201-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="post:\user\(userId)\shopping_cart\confirmation:application\json:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_user_{userid}_shopping_cart_confirmation_application_json.json')]" />
+            <set-variable variableName="userId" value="#['123123']" doc:name="userId" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="#['/user/$(vars.userId)/shopping_cart/confirmation']">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(201)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 201" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_201_user_{userid}_shopping_cart_confirmation_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\session:application\json:mobile-customer-api-config-201-application\json-FlowTest" description="Verifying functionality of [post:\session:application\json:mobile-customer-api-config-201-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="post:\session:application\json:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_session_application_json.json')]" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/session">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(201)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 201" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_201_session_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\session:application\json:mobile-customer-api-config-400-application\json-FlowTest" description="Verifying functionality of [post:\session:application\json:mobile-customer-api-config-400-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="post:\session:application\json:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[null]" />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/session">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Accept" : "application/json",
+	"client_secret" : "",
+	"client_id" : "",
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="400" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_400_session_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\user:application\json:mobile-customer-api-config-201-application\json-FlowTest" description="Verifying functionality of [post:\user:application\json:mobile-customer-api-config-201-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="post:\user:application\json:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_user_application_json.json')]"/>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/user">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(201)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 201" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_201_user_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\user:application\json:mobile-customer-api-config-400-application\json-FlowTest" description="Verifying functionality of [post:\user:application\json:mobile-customer-api-config-400-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="mobile-customer-api-main" />
+            <munit:enable-flow-source value="post:\user:application\json:mobile-customer-api-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value='#[output application/json ---{general: "kenobi"}]' />
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/user">
+                <http:headers>#[{"Accept":"application/json","client_secret":"","client_id":"","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="400" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(400)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 400" />
+            <munit-tools:assert-that expression="#[output application/java ---write(payload, 'application/json') as String]" is="#[MunitTools::equalTo(MunitTools::getResourceAsString('scaffolder/response/post_400_user_application_json.json'))]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+</mule>

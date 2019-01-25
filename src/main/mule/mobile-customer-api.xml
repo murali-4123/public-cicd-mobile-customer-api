@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
     <http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="e9934a1d-f9b4-4953-af54-4911e9861c0c" basePath="${http.client.basePath}">
 		<http:request-connection host="${http.client.host}" port="${http.client.port}" />
 	</http:request-config>
-	<configuration-properties doc:name="Configuration properties" doc:id="5ae3c8d5-2223-4c67-9ac5-76ed7ce8d26e" file="config/configuration.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="5ae3c8d5-2223-4c67-9ac5-76ed7ce8d26e" file="config/configuration-${mule.env}.yaml" />
 	<flow name="mobile-customer-api-main">
         <http:listener config-ref="mobile-customer-api-httpListenerConfig" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
