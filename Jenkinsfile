@@ -1,68 +1,92 @@
 pipeline {
   agent {
-    label 'mule-builder'
+    label 'bat-builder'
   }
   environment {
     DEPLOY_CREDS = credentials('deploy-anypoint-user')
-    MULE_VERSION = '4.1.4'
+    MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
+    APPNAME = "fb-mobile-customer-api"
   }
   stages {
     stage('Build') {
       steps {
-        withMaven(
-          mavenSettingsConfig: 'f007350a-b1d5-44a8-9757-07c22cd2a360'){
             sh 'mvn -B -U -e -V clean -DskipTests package'
-          }
       }
     }
 
     stage('Test') {
       steps {
-        withMaven(
-          mavenSettingsConfig: 'f007350a-b1d5-44a8-9757-07c22cd2a360'){
-            sh "mvn -B test"
-        }
+	withMaven(
+          mavenSettingsConfig: 'public-maven-config.xml') {
+            sh "mvn -B -Dmule.env=dev test"
+          }
       }
     }
 
     stage('Deploy Development') {
-      when {
-        branch 'develop'
-      }
       environment {
         ENVIRONMENT = 'Development'
-        APP_NAME = 'dev-public-cicd-mobile-customer-api'
+        APP_NAME = 'dev-${APPNAME}'
       }
       steps {
-        withMaven(
-          mavenSettingsConfig: 'f007350a-b1d5-44a8-9757-07c22cd2a360'){
-            sh 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version=$MULE_VERSION -Danypoint.username=$DEPLOY_CREDS_USR -Danypoint.password=$DEPLOY_CREDS_PSW -Dcloudhub.app=$APP_NAME -Dcloudhub.environment=$ENVIRONMENT -Dcloudhub.bg=$BG -Dcloudhub.worker=$WORKER -Denv.name=dev'
-          }
+            sh 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version=$MULE_VERSION -Danypoint.username=$DEPLOY_CREDS_USR -Danypoint.password=$DEPLOY_CREDS_PSW -Dcloudhub.app=$APP_NAME -Dcloudhub.environment=$ENVIRONMENT -Dcloudhub.bg="$BG" -Dcloudhub.worker=$WORKER -Denv.name=dev'
       }
     }
-    stage('Deploy Production') {
-        when {
-          branch 'master'
-        }
-        environment {
-          ENVIRONMENT = 'Production'
-          APP_NAME = 'public-cicd-mobile-customer-api'
-        }
+
+    stage('Integration Test') {
         steps {
-          withMaven(
-            mavenSettingsConfig: 'f007350a-b1d5-44a8-9757-07c22cd2a360'){
-              sh 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version=$MULE_VERSION -Danypoint.username=$DEPLOY_CREDS_USR -Danypoint.password=$DEPLOY_CREDS_PSW -Dcloudhub.app=$APP_NAME -Dcloudhub.environment=$ENVIRONMENT -Dcloudhub.bg=$BG -Dcloudhub.worker=$WORKER -Denv.name=prod'
-            }
+            sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/dev-${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
+            sh 'bat integration-tests --config=devx'
         }
     }
+    stage('Deploy Production') {
+        environment {
+          ENVIRONMENT = 'Production'
+          APP_NAME = '${APPNAME}'
+        }
+        steps {
+              sh 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version=$MULE_VERSION -Danypoint.username=$DEPLOY_CREDS_USR -Danypoint.password=$DEPLOY_CREDS_PSW -Dcloudhub.app=$APP_NAME -Dcloudhub.environment=$ENVIRONMENT -Dcloudhub.bg="$BG" -Dcloudhub.worker=$WORKER -Denv.name=prod'
+        }
   }
+
+  stage('Install Monitoring') {
+      environment {
+          TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
+      }
+      steps {
+            sh 'sed -i -e "s/name:.*$/name: \"${APPNAME}_$(date +%Y%m%d%H%M%S)\"/g" integration-tests/bat.yaml'
+            sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
+            sh 'bat schedule create --name=$APPNAME --target=$TARGET integration-tests'
+      }
+  }
+}
   post {
       always {
+        publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'target/site/munit/coverage',
+                        reportFiles: 'summary.html',
+                        reportName: "Code coverage"
+                    ]
+                   )       
+        publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: '/tmp',
+                        reportFiles: 'index.html',
+                        reportName: "Integration Test",
+                        includes: '**/index.html'
+                    ]
+                   )       
        step([$class: 'hudson.plugins.chucknorris.CordellWalkerRecorder'])
       }
   }
   tools {
     maven 'M3'
   }
+}

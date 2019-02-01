@@ -1,5 +1,5 @@
 http:
   client:
-    host: "public-cicd-mock.us-e2.cloudhub.io"
+    host: "dev-public-cicd-mock.us-e2.cloudhub.io"
     port: "80"
     basePath: "/api"
