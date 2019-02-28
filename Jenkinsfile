@@ -22,18 +22,18 @@ pipeline {
           mavenSettingsConfig: 'public-maven-config.xml') {
             sh "mvn -B -Dmule.env=dev test"
           }
-        post {
-          always {
-            publishHTML (target: [
-                          allowMissing: false,
-                          alwaysLinkToLastBuild: false,
-                          keepAll: true,
-                          reportDir: 'target/site/munit/coverage',
-                          reportFiles: 'summary.html',
-                          reportName: "Code coverage"
-                      ]
-                    )
-          }
+      }
+      post {
+        always {
+          publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'target/site/munit/coverage',
+                        reportFiles: 'summary.html',
+                        reportName: "Code coverage"
+                    ]
+                  )
         }
       }
     }
