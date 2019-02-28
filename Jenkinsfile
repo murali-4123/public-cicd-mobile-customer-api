@@ -18,10 +18,23 @@ pipeline {
 
     stage('Test') {
       steps {
-	withMaven(
+	      withMaven(
           mavenSettingsConfig: 'public-maven-config.xml') {
             sh "mvn -B -Dmule.env=dev test"
           }
+        post {
+          always {
+            publishHTML (target: [
+                          allowMissing: false,
+                          alwaysLinkToLastBuild: false,
+                          keepAll: true,
+                          reportDir: 'target/site/munit/coverage',
+                          reportFiles: 'summary.html',
+                          reportName: "Code coverage"
+                      ]
+                    )
+          }
+        }
       }
     }
 
@@ -39,6 +52,20 @@ pipeline {
         steps {
             sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/dev-${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
             sh 'bat integration-tests --config=devx'
+        }
+        post {
+          always {
+            publishHTML (target: [
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: true,
+                            keepAll: true,
+                            reportDir: '/tmp',
+                            reportFiles: 'index.html',
+                            reportName: "Integration Test",
+                            includes: '**/index.html'
+                        ]
+                      )       
+          }
         }
     }
     stage('Deploy Production') {
@@ -64,25 +91,6 @@ pipeline {
 }
   post {
       always {
-        publishHTML (target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: 'target/site/munit/coverage',
-                        reportFiles: 'summary.html',
-                        reportName: "Code coverage"
-                    ]
-                   )       
-        publishHTML (target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: '/tmp',
-                        reportFiles: 'index.html',
-                        reportName: "Integration Test",
-                        includes: '**/index.html'
-                    ]
-                   )       
        step([$class: 'hudson.plugins.chucknorris.CordellWalkerRecorder'])
       }
   }
