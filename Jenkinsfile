@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "nto-mobile-experience"
+    APPNAME = "fb-mobile-customer-api-jimil"
   }
   stages {
     stage('Build') {
@@ -76,6 +76,17 @@ pipeline {
         steps {
               sh 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version=$MULE_VERSION -Danypoint.username=$DEPLOY_CREDS_USR -Danypoint.password=$DEPLOY_CREDS_PSW -Dcloudhub.app=$APP_NAME -Dcloudhub.environment=$ENVIRONMENT -Dcloudhub.bg="$BG" -Dcloudhub.worker=$WORKER -Denv.name=prod'
         }
+  }
+
+  stage('Install Functional Monitoring') {
+      environment {
+          TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
+      }
+      steps {
+            sh 'sed -i -e "s/name:.*$/name: \"${APPNAME}_$(date +%Y%m%d%H%M%S)\"/g" integration-tests/bat.yaml'
+            sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
+            sh 'bat schedule create --name=$APPNAME --target=$TARGET integration-tests'
+      }
   }
 }
   post {
