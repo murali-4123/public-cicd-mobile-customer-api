@@ -81,7 +81,7 @@ pipeline {
 
   stage('Install Functional Monitoring') {
       when {
-         $DEPLOY_BAT 'true'
+         environment name: 'DEPLOY_BAT', value: 'true'
       }
       environment {
           TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
