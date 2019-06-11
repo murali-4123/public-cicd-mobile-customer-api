@@ -85,7 +85,7 @@ pipeline {
       steps {
             sh 'sed -i -e "s/name:.*$/name: \"${APPNAME}_$(date +%Y%m%d%H%M%S)\"/g" integration-tests/bat.yaml'
             sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
-            sh 'bat schedule create --name=$APPNAME --target=$TARGET integration-tests'
+            sh 'bat schedule create --debug --name=$APPNAME --target=$TARGET integration-tests'
       }
   }
 }
