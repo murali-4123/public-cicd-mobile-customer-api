@@ -79,6 +79,9 @@ pipeline {
   }
 
   stage('Install Functional Monitoring') {
+      when {
+         false
+      }
       environment {
           TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
       }
