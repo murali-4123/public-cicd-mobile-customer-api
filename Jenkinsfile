@@ -8,6 +8,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
     APPNAME = "fb2-mobile-customer-api"
+    DEPLOY_BAT = "false"
   }
   stages {
     stage('Build') {
@@ -80,7 +81,7 @@ pipeline {
 
   stage('Install Functional Monitoring') {
       when {
-         false
+         $DEPLOY_BAT == true
       }
       environment {
           TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
