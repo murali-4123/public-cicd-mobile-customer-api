@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "ac2-mobile-customer-api"
+    APPNAME = "mm-mobile-customer-api"
     DEPLOY_BAT = "false"
   }
   stages {
