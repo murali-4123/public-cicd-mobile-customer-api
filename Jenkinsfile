@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "mm3-mobile-customer-api"
+    APPNAME = "ianttc-mobile-customer-api"
     DEPLOY_BAT = "false"
   }
   stages {
