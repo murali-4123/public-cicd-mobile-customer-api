@@ -7,8 +7,13 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
+<<<<<<< Updated upstream
     APPNAME = "ianttc-mobile-customer-api"
     DEPLOY_BAT = "false"
+=======
+    APPNAME = "fb-mobile-customer-api"
+    DEPLOY_BAT = "true"
+>>>>>>> Stashed changes
   }
   stages {
     stage('Build') {
