@@ -7,8 +7,13 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
+<<<<<<< HEAD
     APPNAME = "dave-mobile-customer-api"
     DEPLOY_BAT = "false"
+=======
+    APPNAME = "fb-mobile-customer-api"
+    DEPLOY_BAT = "true"
+>>>>>>> 6568aa63d2f20da89ecba072955463da6acc42f0
   }
   stages {
     stage('Build') {
