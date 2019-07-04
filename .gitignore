@@ -26,6 +26,8 @@ local.properties
 .project
 .classpath
 *.jks
+.bat-version
+
 
 # External tool builders
 .externalToolBuilders/
