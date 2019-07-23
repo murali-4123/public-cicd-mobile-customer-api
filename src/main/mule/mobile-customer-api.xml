@@ -265,7 +265,7 @@ output application/json
 payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="394efddb-8150-4d5b-b612-d910de4c55a7" message='"Hey I am at the Mobile Customer API - Method: product search!!!!!"' />
+		<logger level="INFO" doc:name="Logger" doc:id="394efddb-8150-4d5b-b612-d910de4c55a7" message='"Hey I am at the Mobile Customer API!!!!!"' />
     </flow>
     <flow name="get:\user\(userId)\shopping_cart:mobile-customer-api-config">
         <http:request method="GET" doc:name="Request" doc:id="1c7bd6df-1ff5-4073-96e2-57a5ef056ae9" config-ref="HTTP_Request_configuration" path="#['/user/' ++ attributes.uriParams.userId ++ '/shopping_cart']">
