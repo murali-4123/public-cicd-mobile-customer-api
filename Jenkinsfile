@@ -8,6 +8,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
     APPNAME = "webster-mobile-customer-api"
+
     DEPLOY_BAT = "true"
   }
   stages {

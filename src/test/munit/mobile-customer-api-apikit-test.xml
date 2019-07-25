@@ -15,7 +15,11 @@
         </munit:behavior>
         <munit:execution>
             <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/user/$(vars.userId)/shopping_cart']">
-                <http:headers>#[{"Content-Type":"application/json"}]</http:headers>
+                <http:headers><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
             </http:request>
         </munit:execution>
         <munit:validation>
