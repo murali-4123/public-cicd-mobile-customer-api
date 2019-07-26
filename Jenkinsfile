@@ -93,12 +93,20 @@ pipeline {
             sh 'bat schedule create --debug --name=$APPNAME --target=$TARGET integration-tests'
       }
   }
-}
-  post {
-      always {
-       step([$class: 'hudson.plugins.chucknorris.CordellWalkerRecorder'])
+  stage('Install PayPal Monitoring') {
+      when {
+         environment name: 'DEPLOY_BAT', value: 'true'
       }
-  }
+      environment {
+          TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
+      }
+      steps {
+            sh 'sed -i -e "s/name:.*$/name: \"PAYMENT_MONITOR_$(date +%Y%m%d%H%M%S)\"/g" paypal-test/bat.yaml'
+            sh 'bat --version'
+            sh 'bat schedule create --debug --name=PAYMENT_MONITOR --target=$TARGET paypal-test'
+      }
+  }  
+}
   tools {
     maven 'M3'
   }

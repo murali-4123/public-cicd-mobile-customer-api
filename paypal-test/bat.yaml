@@ -1,0 +1,26 @@
+suite:
+  name: "Pay Pal Test Suite"
+files:
+  - file: tests/PayCall.dwl
+reporters:
+    - type: HTML
+      outFile: /tmp/HTML.html
+  # - type: SumoLogic
+  #   options:
+  #     SUMO_ENDPOINT: <sumo_source>
+  # - type: PagerDuty
+  #   options:
+  #     PAGER_DUTY_ROUTING_KEY: <routing_key>
+  # - type: Slack
+  #   options:
+  #     SLACK_WEBHOOK: <webhook_url>
+  # - type: Email
+  #   options:
+  #     EMAILS: <email_list>
+  # - type: NewRelic
+  #   options:
+  #     NEW_RELIC_LICENSE_KEY: <license_key>
+  # - type: JSON
+  #   outFile: /tmp/JSON.json
+  # - type: JUnit
+  #   outFile: /tmp/JUnit.xml
