@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "jives2-mobile-customer-api"
+    APPNAME = "jives3-mobile-customer-api"
     DEPLOY_BAT = "true"
   }
   stages {
