@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "kyle-mobile-customer-api"
+    APPNAME = "tech-talk-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
