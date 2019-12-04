@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "test2-mobile-customer-api"
+    APPNAME = "chegg-demo-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
