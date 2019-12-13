@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "chalo-demo-mobile-customer-api"
+    APPNAME = "chalo3-demo-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
