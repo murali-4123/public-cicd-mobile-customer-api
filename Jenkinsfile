@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "iantTEST3-mobile-customer-api"
+    APPNAME = "msvec-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
