@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "djvtest-mobile-customer-api"
+    APPNAME = "djv11-test-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
