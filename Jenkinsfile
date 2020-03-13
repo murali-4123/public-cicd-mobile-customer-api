@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "djv10-test-mobile-customer-api"
+    APPNAME = "tano-test-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
