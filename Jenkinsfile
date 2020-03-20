@@ -19,6 +19,7 @@ pipeline {
             sh 'mvn -B -U -e -V clean -DskipTests package'
           }
       }
+    }
 
     stage('Test') {
       steps {
@@ -86,23 +87,23 @@ pipeline {
               sh 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version=$MULE_VERSION -Danypoint.username=$DEPLOY_CREDS_USR -Danypoint.password=$DEPLOY_CREDS_PSW -Dcloudhub.app=$APP_NAME -Dcloudhub.environment=$ENVIRONMENT -Dcloudhub.bg="$BG" -Dcloudhub.worker=$WORKER -Denv.name=prod'
           }
         }
-  }
+    }
 
-  stage('Install Functional Monitoring') {
-      when {
-         environment name: 'DEPLOY_BAT', value: 'true'
-      }
-      environment {
-          TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
-      }
-      steps {
-            sh 'sed -i -e "s/name:.*$/name: \"${APPNAME}_$(date +%Y%m%d%H%M%S)\"/g" integration-tests/bat.yaml'
-            sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
-            sh 'bat --version'
-            sh 'bat schedule create --debug --name=$APPNAME --target=$TARGET integration-tests'
-      }
+    stage('Install Functional Monitoring') {
+        when {
+          environment name: 'DEPLOY_BAT', value: 'true'
+        }
+        environment {
+            TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
+        }
+        steps {
+              sh 'sed -i -e "s/name:.*$/name: \"${APPNAME}_$(date +%Y%m%d%H%M%S)\"/g" integration-tests/bat.yaml'
+              sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
+              sh 'bat --version'
+              sh 'bat schedule create --debug --name=$APPNAME --target=$TARGET integration-tests'
+        }
+    }
   }
-}
   post {
       always {
        step([$class: 'hudson.plugins.chucknorris.CordellWalkerRecorder'])
