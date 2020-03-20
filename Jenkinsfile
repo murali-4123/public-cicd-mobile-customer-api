@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.5'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "oz-mobile-customer-api"
+    APPNAME = "chalo-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
@@ -84,7 +84,7 @@ pipeline {
           withMaven(
           mavenSettingsConfig: 'public-maven-config.xml') {
               sh 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version=$MULE_VERSION -Danypoint.username=$DEPLOY_CREDS_USR -Danypoint.password=$DEPLOY_CREDS_PSW -Dcloudhub.app=$APP_NAME -Dcloudhub.environment=$ENVIRONMENT -Dcloudhub.bg="$BG" -Dcloudhub.worker=$WORKER -Denv.name=prod'
-          
+          }
         }
   }
 
