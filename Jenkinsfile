@@ -4,10 +4,10 @@ pipeline {
   }
   environment {
     DEPLOY_CREDS = credentials('deploy-anypoint-user')
-    MULE_VERSION = '4.1.5'
+    MULE_VERSION = '4.2.2'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "chalo-mobile-customer-api"
+    APPNAME = "fb-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
