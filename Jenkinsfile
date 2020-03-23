@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.2.2'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "fb-mobile-customer-api"
+    APPNAME = "mj-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
@@ -21,27 +21,27 @@ pipeline {
       }
     }
 
-//    stage('Test') {
-//      steps {
-//	      withMaven(
- //         mavenSettingsConfig: 'public-maven-config.xml') {
-  //          sh "mvn -B -Dmule.env=dev test"
-   //       }
-    //  }
-     // post {
-      //  always {
-       //   publishHTML (target: [
-        //                allowMissing: false,
-         //               alwaysLinkToLastBuild: false,
-          //              keepAll: true,
-           //             reportDir: 'target/site/munit/coverage',
-            //            reportFiles: 'summary.html',
-             //           reportName: "Code coverage"
-              //      ]
-               //   )
-        //}
-      //}
-    //}
+    stage('Test') {
+      steps {
+	      withMaven(
+          mavenSettingsConfig: 'public-maven-config.xml') {
+           sh "mvn -B -Dmule.env=dev test"
+       }
+     }
+      post {
+        always {
+          publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                       keepAll: true,
+                        reportDir: 'target/site/munit/coverage',
+                        reportFiles: 'summary.html',
+                        reportName: "Code coverage"
+                    ]
+                  )
+        }
+      }
+    }
 
     stage('Deploy Development') {
       environment {
