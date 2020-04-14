@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.2.2'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "kb-mobile-customer-api"
+    APPNAME = "sk-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
