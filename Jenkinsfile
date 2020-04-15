@@ -26,7 +26,7 @@ pipeline {
         sh "echo '\"token\" : \"df53d687-9c35-4f22-aa7e-65f1f49f1b45\",' >> ~/.anypoint/credentials"
         sh "echo '\"timestamp\" : 1548478748' >> ~/.anypoint/credentials"
         sh "echo '}' >> ~/.anypoint/credentials"
-        sh "echo '}}' >>  ~/.anypoint/credentials'"
+        sh "echo '}}' >>  ~/.anypoint/credentials"
       }
     }
     
