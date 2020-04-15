@@ -7,11 +7,31 @@ pipeline {
     MULE_VERSION = '4.2.2'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
+
     APPNAME = "nw-asu2-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
   stages {
+    stage('Prepare bat configuration') {
+      steps {
+        sh "mkdir ~/.anypoint"
+        sh "echo '{' > ~/.anypoint/credentials"
+        sh "echo '\"default\" : {' >> ~/.anypoint/credentials"
+        sh "echo '\"username\" : \"${DEPLOY_CREDS_USR}\",' >> ~/.anypoint/credentials"
+        sh "echo  '\"password\" : \"${DEPLOY_CREDS_PSW}\",' >> ~/.anypoint/credentials"
+        sh "echo '\"organization\" : \"1Platform\",' >> ~/.anypoint/credentials"
+        sh "echo '\"organizationId\" : \"b0a11a10-9a2e-4b71-b6b6-88c719e79179\",' >> ~/.anypoint/credentials"
+        sh "echo  '\"environment\" : null,' >> ~/.anypoint/credentials"
+        sh "echo '\"host\" : null,' >> ~/.anypoint/credentials"
+        sh "echo '\"token\" : { ' >> ~/.anypoint/credentials"
+        sh "echo '\"token\" : \"df53d687-9c35-4f22-aa7e-65f1f49f1b45\",' >> ~/.anypoint/credentials"
+        sh "echo '\"timestamp\" : 1548478748' >> ~/.anypoint/credentials"
+        sh "echo '}' >> ~/.anypoint/credentials"
+        sh "echo '}}' >>  ~/.anypoint/credentials"
+      }
+    }
+    
     stage('Build') {
       steps {
         withMaven(
