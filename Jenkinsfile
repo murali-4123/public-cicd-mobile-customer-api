@@ -8,7 +8,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "test-mobile-customer-api"
+    APPNAME = "fb-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
