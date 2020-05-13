@@ -8,7 +8,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "update-mobile-customer-api"
+    APPNAME = "mstest-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
