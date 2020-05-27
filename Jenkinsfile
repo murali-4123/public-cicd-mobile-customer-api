@@ -8,7 +8,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "fb-mobile-customer-instesa-api"
+    APPNAME = "fb-mobile-customer-instesa-2-api"
 
     DEPLOY_BAT = "true"
   }
