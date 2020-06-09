@@ -8,7 +8,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "Aviatrix-mobile-customer-api"
+    APPNAME = "intesa-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
