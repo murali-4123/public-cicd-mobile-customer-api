@@ -2,13 +2,18 @@ pipeline {
   agent {
     label 'bat-builder'
   }
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+
   environment {
     DEPLOY_CREDS = credentials('deploy-anypoint-user')
     MULE_VERSION = '4.2.2'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "skwongus-mobile-customer-api"
+    APPNAME = "fb-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
