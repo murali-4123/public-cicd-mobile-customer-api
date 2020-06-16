@@ -2,12 +2,19 @@ pipeline {
   agent {
     label 'bat-builder'
   }
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+
   environment {
     DEPLOY_CREDS = credentials('deploy-anypoint-user')
-    MULE_VERSION = '4.1.5'
+    MULE_VERSION = '4.2.2'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
-    APPNAME = "test-demo-mobile-customer-api"
+
+    APPNAME = "fb-mobile-customer-api"
+
     DEPLOY_BAT = "true"
   }
   stages {
@@ -37,28 +44,29 @@ pipeline {
             sh 'mvn -B -U -e -V clean -DskipTests package'
           }
       }
+    }
 
-//    stage('Test') {
-//      steps {
-//	      withMaven(
- //         mavenSettingsConfig: 'public-maven-config.xml') {
-  //          sh "mvn -B -Dmule.env=dev test"
-   //       }
-    //  }
-     // post {
-      //  always {
-       //   publishHTML (target: [
-        //                allowMissing: false,
-         //               alwaysLinkToLastBuild: false,
-          //              keepAll: true,
-           //             reportDir: 'target/site/munit/coverage',
-            //            reportFiles: 'summary.html',
-             //           reportName: "Code coverage"
-              //      ]
-               //   )
-        //}
-      //}
-    //}
+    stage('Test') {
+      steps {
+	      withMaven(
+          mavenSettingsConfig: 'public-maven-config.xml') {
+           sh "mvn -B -Dmule.env=dev test"
+       }
+     }
+      post {
+        always {
+          publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                       keepAll: true,
+                        reportDir: 'target/site/munit/coverage',
+                        reportFiles: 'summary.html',
+                        reportName: "Code coverage"
+                    ]
+                  )
+        }
+      }
+    }
 
     stage('Deploy Development') {
       environment {
@@ -102,38 +110,30 @@ pipeline {
           withMaven(
           mavenSettingsConfig: 'public-maven-config.xml') {
               sh 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version=$MULE_VERSION -Danypoint.username=$DEPLOY_CREDS_USR -Danypoint.password=$DEPLOY_CREDS_PSW -Dcloudhub.app=$APP_NAME -Dcloudhub.environment=$ENVIRONMENT -Dcloudhub.bg="$BG" -Dcloudhub.worker=$WORKER -Denv.name=prod'
-          
+          }
         }
-  }
+    }
 
-  stage('Install Functional Monitoring') {
-      when {
-         environment name: 'DEPLOY_BAT', value: 'true'
-      }
-      environment {
-          TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
-      }
-      steps {
-            sh 'sed -i -e "s/name:.*$/name: \"${APPNAME}_$(date +%Y%m%d%H%M%S)\"/g" integration-tests/bat.yaml'
-            sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
-            sh 'bat --version'
-            sh 'bat schedule create --debug --name=$APPNAME --target=$TARGET integration-tests'
+    stage('Install Functional Monitoring') {
+        when {
+          environment name: 'DEPLOY_BAT', value: 'true'
+        }
+        environment {
+            TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
+        }
+        steps {
+              sh 'sed -i -e "s/name:.*$/name: \"${APPNAME}_$(date +%Y%m%d%H%M%S)\"/g" integration-tests/bat.yaml'
+              sh 'sed -i -e "s/url:.*$/url: \'http:\\/\\/${APPNAME}.us-e2.cloudhub.io\\/api\',/g" integration-tests/config/devx.dwl'
+              sh 'bat --version'
+              sh 'bat schedule create --debug --name=$APPNAME --target=$TARGET integration-tests'
+        }
+    }
+  }
+  post {
+      always {
+       step([$class: 'hudson.plugins.chucknorris.CordellWalkerRecorder'])
       }
   }
-  stage('Install PayPal Monitoring') {
-      when {
-         environment name: 'DEPLOY_BAT', value: 'true'
-      }
-      environment {
-          TARGET="75c403a6-8054-43ec-b611-63b9efff820d"
-      }
-      steps {
-            sh 'sed -i -e "s/name:.*$/name: \"PAYMENT_MONITOR_$(date +%Y%m%d%H%M%S)\"/g" paypal-test/bat.yaml'
-            sh 'bat --version'
-            sh 'bat schedule create --debug --name=PAYMENT_MONITOR --target=$TARGET paypal-test'
-      }
-  }  
-}
   tools {
     maven 'M3'
   }
