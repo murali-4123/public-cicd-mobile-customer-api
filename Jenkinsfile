@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "anthony-test-mobile-customer-api"
+    APPNAME = "cameron-test-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
