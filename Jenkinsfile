@@ -9,11 +9,11 @@ pipeline {
 
   environment {
     DEPLOY_CREDS = credentials('deploy-anypoint-user')
-    MULE_VERSION = '4.2.2'
+    MULE_VERSION = '4.3.0'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "cameron-test-mobile-customer-api"
+    APPNAME = "fb-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
