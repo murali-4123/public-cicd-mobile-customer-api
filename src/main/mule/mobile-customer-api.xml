@@ -194,6 +194,7 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="b86450f6-3c3c-4d4a-8c7c-01caccee0120" message="#[payload]"/>
     </flow>
     <flow name="get:\products\product\(product_id):mobile-customer-api-config">
         <http:request method="GET" doc:name="Request" doc:id="c1239cbf-2fd9-4ae2-a03d-02bf3eb76005" config-ref="HTTP_Request_configuration" path="#['/products/product/' ++ attributes.uriParams.product_id]">
