@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "fede-mobile-customer-api"
+    APPNAME = "cnel5-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
