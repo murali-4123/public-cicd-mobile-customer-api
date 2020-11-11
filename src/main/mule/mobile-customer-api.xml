@@ -153,7 +153,6 @@ output application/json
 null]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="1c844d25-07cf-42b6-a88f-763140b8e0ea" message="#[payload]"/>
     </flow>
     <flow name="put:\user\(userId):application\json:mobile-customer-api-config">
         <http:request method="PUT" doc:name="Request" doc:id="7ede31d7-5668-4139-b738-dc265efae3fc" config-ref="HTTP_Request_configuration" path="#['/user/' ++ attributes.uriParams.userId]">
@@ -174,7 +173,6 @@ output application/json
 payload]]></ee:set-payload>
             </ee:message>
         </ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="c2e4c355-98bd-42d6-9edd-120f0a5bdb75" message="#[payload]"/>
     </flow>
     <flow name="get:\orders\order\(order_id):mobile-customer-api-config">
 		<http:request method="GET" doc:name="Request" doc:id="759050b6-28d7-4805-b794-5b35b31c8083" config-ref="HTTP_Request_configuration" path="#['/orders/order/' ++ attributes.uriParams.order_id]">
