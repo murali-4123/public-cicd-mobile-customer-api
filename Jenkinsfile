@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "NTO17112020-1-API-mobile-customer-api"
+    APPNAME = "NTO23112020-1-API-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
