@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "NTO14012021-Angel-API-mobile-customer-api"
+    APPNAME = "Angel-API-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
@@ -36,7 +36,7 @@ pipeline {
         sh "echo '}}' >>  ~/.anypoint/credentials"
       }
     }
-    
+
     stage('Build') {
       steps {
         withMaven(
@@ -97,7 +97,7 @@ pipeline {
                             reportName: "Integration Test",
                             includes: '**/index.html'
                         ]
-                      )       
+                      )
           }
         }
     }
