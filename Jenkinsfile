@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "PLI-API-mobile-customer-api"
+    APPNAME = "hasham-API-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
