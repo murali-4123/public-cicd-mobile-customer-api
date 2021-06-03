@@ -153,7 +153,7 @@ output application/json
 null]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger - zix demo" doc:id="240e78f3-3ae8-4194-94cd-c79129aa1df6" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger - update for Elastic" doc:id="240e78f3-3ae8-4194-94cd-c79129aa1df6" message="#[payload]"/>
     </flow>
     <flow name="put:\user\(userId):application\json:mobile-customer-api-config">
         <http:request method="PUT" doc:name="Request" doc:id="7ede31d7-5668-4139-b738-dc265efae3fc" config-ref="HTTP_Request_configuration" path="#['/user/' ++ attributes.uriParams.userId]">
