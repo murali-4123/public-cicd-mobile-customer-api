@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "sharp-API-mobile-customer-api"
+    APPNAME = "sharp-API-mobile-customer-api2"
 
     DEPLOY_BAT = "true"
   }
