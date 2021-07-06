@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "akaur-API-mobile-customer-api2"
+    APPNAME = "slee-API-mobile-customer-api2"
 
     DEPLOY_BAT = "true"
   }
