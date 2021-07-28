@@ -13,11 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-<<<<<<< HEAD
     APPNAME = "puig-mobile-customer-api"
-=======
-    APPNAME = "ccasares-mobile-customer-api2"
->>>>>>> branch 'master' of https://github.com/mulesoft-consulting/public-cicd-mobile-customer-api
 
     DEPLOY_BAT = "true"
   }
