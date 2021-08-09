@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "weir_demo-mobile-customer-api"
+    APPNAME = "weir_demo02-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
