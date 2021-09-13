@@ -13,7 +13,7 @@ pipeline {
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
 
-    APPNAME = "wg-ev-mobile-customer-api"
+    APPNAME = "wg-ev-uar-mobile-customer-api"
 
     DEPLOY_BAT = "true"
   }
