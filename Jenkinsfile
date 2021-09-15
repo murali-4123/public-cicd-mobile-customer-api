@@ -8,7 +8,7 @@ pipeline {
   }
 
   environment {
-    DEPLOY_CREDS = credentials('deploy-anypoint-user')
+    DEPLOY_CREDS = credentials('anypoint.credentials')
     MULE_VERSION = '4.3.0'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
