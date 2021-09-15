@@ -8,7 +8,7 @@ pipeline {
   }
 
   environment {
-    DEPLOY_CREDS = credentials('anypoint.credentials')
+    DEPLOY_CREDS = credentials('Murali-lucky')
     MULE_VERSION = '4.3.0'
     BG = "1Platform\\Public\\CI-CD Demo"
     WORKER = "Micro"
@@ -25,8 +25,8 @@ pipeline {
         sh "echo '\"default\" : {' >> ~/.anypoint/credentials"
         sh "echo '\"username\" : \"${DEPLOY_CREDS_USR}\",' >> ~/.anypoint/credentials"
         sh "echo  '\"password\" : \"${DEPLOY_CREDS_PSW}\",' >> ~/.anypoint/credentials"
-        sh "echo '\"organization\" : \"1Platform\",' >> ~/.anypoint/credentials"
-        sh "echo '\"organizationId\" : \"b0a11a10-9a2e-4b71-b6b6-88c719e79179\",' >> ~/.anypoint/credentials"
+        sh "echo '\"organization\" : \"testyantra\",' >> ~/.anypoint/credentials"
+        sh "echo '\"organizationId\" : \"ee5a9cd6-469b-4107-92c2-1bf02aadbba0\",' >> ~/.anypoint/credentials"
         sh "echo  '\"environment\" : null,' >> ~/.anypoint/credentials"
         sh "echo '\"host\" : null,' >> ~/.anypoint/credentials"
         sh "echo '\"token\" : { ' >> ~/.anypoint/credentials"
