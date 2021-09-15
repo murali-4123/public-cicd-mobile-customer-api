@@ -2,7 +2,7 @@
 ---
 {
   url: 'http://dev-fb-mobile-customer2-api.us-e2.cloudhub.io/api',
-  client_id: 'afb642fbcc9e432c8acae55321984c85',
-  client_secret: 'c0a8edBAB5F346aF8E35158309650dC5',
+  client_id: '3115d5822d464e4c93a81904c76c7c7e',
+  client_secret: '2677560695974E56B584e948B3146374',
   env:'devx'
 }
